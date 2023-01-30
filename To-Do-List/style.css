@@ -6,7 +6,13 @@ body {
   justify-content: center;
 }
 
+.todo-wrapper {
+  min-width: 600px;
+  justify-content: center;
+}
+
 .todo-title {
+  text-align: center;
   font-family: "Nanum Pen Script", cursive;
   font-size: 6rem;
   color: #3e3e3e;
@@ -37,12 +43,20 @@ button:active {
 
 .todo-item {
   display: flex;
+  height: 2rem;
   justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid #b4b4b4;
 }
 
 ul {
   list-style: none;
+}
+
+.todo-show {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .show-button {
@@ -54,5 +68,14 @@ ul {
 }
 
 .todo-input-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 1rem;
+}
+
+.todo-input {
+  all: unset;
+  text-align: center;
+  border-bottom: 1px solid #b4b4b4;
 }
