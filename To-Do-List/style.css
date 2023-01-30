@@ -1,0 +1,58 @@
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap");
+
+body {
+  background-color: #dee7f0;
+  display: flex;
+  justify-content: center;
+}
+
+.todo-title {
+  font-family: "Nanum Pen Script", cursive;
+  font-size: 6rem;
+  color: #3e3e3e;
+}
+
+.todo-box {
+  background-color: #eeeeee;
+  border: 1px solid #b4b4b4;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.todo-box-top {
+  display: flex;
+  border-bottom: 1px solid #b4b4b4;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  all: unset;
+  color: #4a4a4a;
+}
+
+button:active {
+  font-weight: bolder;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #b4b4b4;
+}
+
+ul {
+  list-style: none;
+}
+
+.show-button {
+  width: 4rem;
+}
+
+.add-button {
+  width: 5rem;
+}
+
+.todo-input-box {
+  margin: 1rem;
+}

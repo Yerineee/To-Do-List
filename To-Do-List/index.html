@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>To-Do-List</title>
+  </head>
+  <body>
+    <div class="todo-wrapper">
+      <div class="todo-title">To-Do-List</div>
+      <div class="todo-box">
+        <div class="todo-box-top">
+          <div class="todo-count">3 todos</div>
+          <button class="remove-all">전체 삭제</button>
+        </div>
+        <ul class="todo-list">
+          <li class="todo-item checked">
+            <div class="checkbox checked">✔</div>
+            <div class="todo-item">할 일 1</div>
+            <button class="remove-item">✖</button>
+          </li>
+          <li class="todo-item">
+            <div class="checkbox unchecked"></div>
+            <div class="todo-item">할 일 2</div>
+            <button class="remove-item">✖</button>
+          </li>
+          <li class="todo-item">
+            <div class="checkbox unchecked"></div>
+            <div class="todo-item">할 일 3</div>
+            <button class="remove-item">✖</button>
+          </li>
+        </ul>
+        <div class="todo-show">
+          <img class="show-button" src="./images/show-checked.png" />전체
+          <img class="show-button" src="./images/show-unchecked.png" />진행 중
+          <img class="show-button" src="./images/show-unchecked.png" />완료
+        </div>
+      </div>
+      <div class="todo-input-box">
+        <input
+          class="todo-input"
+          type="text"
+          placeholder="할 일을 입력해주세요."
+        />
+        <img class="add-button" src="./images/add-btn.png" />추가
+      </div>
+    </div>
+  </body>
+</html>
