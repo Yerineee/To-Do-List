@@ -35,6 +35,7 @@ body {
 button {
   all: unset;
   color: #4a4a4a;
+  cursor: pointer;
 }
 
 button:active {
@@ -59,12 +60,41 @@ ul {
   align-items: center;
 }
 
-.show-button {
-  width: 4rem;
+.show-wrap,
+.add-wrap {
+  margin: 10px 0px;
+  position: relative;
 }
 
-.add-button {
+.show-wrap {
+  width: 4.5rem;
+}
+
+.add-wrap {
   width: 5rem;
+}
+
+.show-button,
+.add-button {
+  width: 100%;
+  margin: auto;
+  cursor: pointer;
+}
+
+.show-button img,
+.add-button img {
+  width: 100%;
+  vertical-align: middle;
+}
+
+.show-text,
+.add-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  cursor: pointer;
 }
 
 .todo-input-box {
@@ -76,6 +106,7 @@ ul {
 
 .todo-input {
   all: unset;
+  width: 100%;
   text-align: center;
   border-bottom: 1px solid #b4b4b4;
 }

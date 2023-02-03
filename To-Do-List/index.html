@@ -33,9 +33,24 @@
           </li>
         </ul>
         <div class="todo-show">
-          <img class="show-button" src="./images/show-checked.png" />전체
-          <img class="show-button" src="./images/show-unchecked.png" />진행 중
-          <img class="show-button" src="./images/show-unchecked.png" />완료
+          <div class="show-wrap">
+            <div class="show-button">
+              <img src="./images/show-checked.png" />
+            </div>
+            <div class="show-text"><p>전체</p></div>
+          </div>
+          <div class="show-wrap">
+            <div class="show-button">
+              <img src="./images/show-checked.png" />
+            </div>
+            <div class="show-text"><p>진행 중</p></div>
+          </div>
+          <div class="show-wrap">
+            <div class="show-button">
+              <img src="./images/show-checked.png" />
+            </div>
+            <div class="show-text"><p>완료</p></div>
+          </div>
         </div>
       </div>
       <div class="todo-input-box">
@@ -44,7 +59,12 @@
           type="text"
           placeholder="할 일을 입력해주세요."
         />
-        <img class="add-button" src="./images/add-btn.png" />추가
+        <div class="add-wrap">
+          <div class="add-button">
+            <img src="./images/add-btn.png" />
+          </div>
+          <div class="add-text"><p>완료</p></div>
+        </div>
       </div>
     </div>
   </body>
