@@ -7,6 +7,10 @@ body {
 }
 
 .todo-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   min-width: 600px;
   justify-content: center;
 }
@@ -21,15 +25,8 @@ body {
 .todo-box {
   background-color: #eeeeee;
   border: 1px solid #b4b4b4;
-  padding: 1rem;
+  padding: 0rem;
   margin: 1rem;
-}
-
-.todo-box-top {
-  display: flex;
-  border-bottom: 1px solid #b4b4b4;
-  justify-content: center;
-  align-items: center;
 }
 
 button {
@@ -42,21 +39,73 @@ button:active {
   font-weight: bolder;
 }
 
+.todo-box-top {
+  display: flex;
+  position: relative;
+  height: 2.5rem;
+  border-bottom: 1px solid #b4b4b4;
+  justify-content: center;
+  align-items: center;
+}
+
+.todo-count {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.remove-all {
+  position: absolute;
+  top: 50%;
+  right: 0%;
+  transform: translate(0%, -50%);
+  margin: 0rem 1rem;
+  font-size: 12px;
+}
+
+.todo-list {
+  padding: 0rem;
+  margin: 0rem;
+}
+
 .todo-item {
   display: flex;
-  height: 2rem;
+  height: 2.5rem;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #b4b4b4;
 }
 
-ul {
+.todo-item ul {
   list-style: none;
+}
+
+.checkbox,
+.remove-item {
+  margin: 0rem 1rem;
+}
+
+.checkbox {
+  position: relative;
+  cursor: pointer;
+}
+
+.checkbox img {
+  width: 1.5rem;
+  vertical-align: middle;
+}
+
+.todo-item .todo-text {
+  font-size: 15px;
 }
 
 .todo-show {
   display: flex;
-  justify-content: space-between;
+  height: 2.5rem;
+  justify-content: center;
   align-items: center;
 }
 
@@ -67,11 +116,12 @@ ul {
 }
 
 .show-wrap {
-  width: 4.5rem;
+  width: 4rem;
+  margin: 0rem 0.8rem;
 }
 
 .add-wrap {
-  width: 5rem;
+  width: 5.5rem;
 }
 
 .show-button,
@@ -88,13 +138,26 @@ ul {
 }
 
 .show-text,
-.add-text {
+.add-text,
+.checkbox-text {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
   cursor: pointer;
+}
+
+.checkbox-text {
+  color: #3e3e3e;
+}
+
+.show-text {
+  font-size: 11px;
+}
+
+.add-text {
+  font-size: 13px;
 }
 
 .todo-input-box {
