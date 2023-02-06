@@ -105,7 +105,7 @@ button:active {
 .todo-item.checked .todo-text {
   text-decoration: line-through;
   font-style: italic;
-  color: #3e3e3e;
+  color: #a4a4a4;
 }
 
 .todo-show {
@@ -160,19 +160,18 @@ button:active {
 
 .checkbox-text {
   transform: translate(-50%, -60%);
-}
-
-.checkbox-text {
+  opacity: 0;
   color: #3e3e3e;
   font-size: 22px;
 }
 
-.show-text {
-  font-size: 11px;
+.todo-item.checked .checkbox-text {
+  opacity: 1;
 }
 
+.show-text,
 .add-text {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 #todo-form {
