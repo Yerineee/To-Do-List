@@ -1,6 +1,7 @@
 const addBtn = document.querySelector(".add-wrap");
 const toDoList = document.querySelector(".todo-list");
 const toDoInput = document.querySelector(".todo-input");
+const removeAllBtn = document.querySelector(".remove-all");
 
 const TODOS_KEY = "toDos";
 
@@ -68,6 +69,16 @@ function removeToDo(event) {
 
   // 해당 id를 가진 항목을 제외하고 배열 및 로컬 스토리지에 다시 저장
   toDos = toDos.filter((toDo) => toDo.id !== parseInt(toDoItem.id));
+  saveToDos();
+}
+
+// 전체삭제 버튼 클릭 시 모든 항목 삭제
+function removeAll() {
+  while (toDoList.hasChildNodes()) {
+    toDoList.removeChild(toDoList.firstChild);
+  }
+
+  toDos = [];
   saveToDos();
 }
 
