@@ -2,20 +2,19 @@ const addBtn = document.querySelector(".add-wrap");
 const toDoList = document.querySelector(".todo-list");
 const toDoInput = document.querySelector(".todo-input");
 
-const toDos = [];
+const TODOS_KEY = "toDos";
 
-function getToDos() {
-  return JSON.parse(JSON.stringify(localStorage.getItem("toDo")));
-}
+let toDos = [];
 
-// 로컬 스토리지에 항목 저장
-function saveToDo(newToDo) {
-  localStorage.setItem("toDos", newToDo);
+// 로컬 스토리지에 배열 저장
+function saveToDos() {
+  localStorage.setItem(TODOS_KEY, JSON.stringify(toDos));
 }
 
 // 할 일 목록에 새로운 항목 추가
-function paintToDo(newToDo) {
+function paintToDo(newToDoObj) {
   const toDoItem = document.createElement("li");
+  toDoItem.id = newToDoObj.id;
   toDoItem.classList.add("todo-item");
 
   const checkbox = document.createElement("div");
@@ -34,7 +33,7 @@ function paintToDo(newToDo) {
 
   const toDoText = document.createElement("div");
   toDoText.classList.add("todo-text");
-  toDoText.innerText = newToDo;
+  toDoText.innerText = newToDoObj.text;
 
   const removeBtn = document.createElement("button");
   removeBtn.classList.add("remove-item");
@@ -64,7 +63,12 @@ function handleCheckbox(event) {
 // 항목 옆의 ✖ 버튼 클릭 시 목록에서 해당 항목 삭제
 function removeToDo(event) {
   const toDoItem = event.target.parentElement;
-  toDoList.removeChild(toDoItem);
+
+  toDoItem.remove();
+
+  // 해당 id를 가진 항목을 제외하고 배열 및 로컬 스토리지에 다시 저장
+  toDos = toDos.filter((toDo) => toDo.id !== parseInt(toDoItem.id));
+  saveToDos();
 }
 
 // 추가 버튼 클릭 시
@@ -74,10 +78,24 @@ function handleAddToDo(event) {
   const newToDo = toDoInput.value;
   toDoInput.value = "";
 
-  paintToDo(newToDo);
+  const newToDoObj = {
+    text: newToDo,
+    id: Date.now(),
+  };
 
-  toDos.push(newToDo);
-  localStorage.setItem("toDo", toDos);
+  toDos.push(newToDoObj);
+
+  paintToDo(newToDoObj);
+  saveToDos();
 }
 
 addBtn.addEventListener("click", handleAddToDo);
+removeAllBtn.addEventListener("click", removeAll);
+
+const savedToDos = localStorage.getItem(TODOS_KEY);
+
+if (savedToDos) {
+  const parsedToDos = JSON.parse(savedToDos);
+  toDos = parsedToDos;
+  parsedToDos.forEach(paintToDo);
+}
