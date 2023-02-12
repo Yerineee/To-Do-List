@@ -2,6 +2,7 @@ const addBtn = document.querySelector(".add-wrap");
 const toDoList = document.querySelector(".todo-list");
 const toDoInput = document.querySelector(".todo-input");
 const removeAllBtn = document.querySelector(".remove-all");
+const toDoCount = document.querySelector(".todo-count");
 
 const TODOS_KEY = "toDos";
 
@@ -45,6 +46,10 @@ function paintToDo(newToDoObj) {
   toDoItem.appendChild(toDoText);
   toDoItem.appendChild(removeBtn);
 
+  if (newToDoObj.isCompleted) {
+    toDoItem.classList.add("checked");
+  }
+
   toDoList.appendChild(toDoItem);
 }
 
@@ -56,8 +61,10 @@ function handleCheckbox(event) {
 
   if (toDoItem.classList.contains("checked")) {
     toDoItem.classList.remove("checked");
+    updateCompleted(toDoItem);
   } else {
     toDoItem.classList.add("checked");
+    updateCompleted(toDoItem);
   }
 }
 
@@ -92,6 +99,7 @@ function handleAddToDo(event) {
   const newToDoObj = {
     text: newToDo,
     id: Date.now(),
+    isCompleted: false,
   };
 
   toDos.push(newToDoObj);
@@ -100,9 +108,22 @@ function handleAddToDo(event) {
   saveToDos();
 }
 
+// 투두 항목의 완료 여부 업데이트
+function updateCompleted(event) {
+  toDos = toDos.map((todo) => {
+    if (todo.id === parseInt(event.id)) {
+      return { ...todo, isCompleted: !todo.isCompleted };
+    } else {
+      return todo;
+    }
+  });
+  saveToDos();
+}
+
 addBtn.addEventListener("click", handleAddToDo);
 removeAllBtn.addEventListener("click", removeAll);
 
+// 새로고침 후에도 항목 유지하기 위함
 const savedToDos = localStorage.getItem(TODOS_KEY);
 
 if (savedToDos) {
