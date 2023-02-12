@@ -51,6 +51,8 @@ function paintToDo(newToDoObj) {
   }
 
   toDoList.appendChild(toDoItem);
+
+  countLeftToDos();
 }
 
 // 체크박스 클릭 시 스타일 적용
@@ -77,6 +79,8 @@ function removeToDo(event) {
   // 해당 id를 가진 항목을 제외하고 배열 및 로컬 스토리지에 다시 저장
   toDos = toDos.filter((toDo) => toDo.id !== parseInt(toDoItem.id));
   saveToDos();
+
+  countLeftToDos();
 }
 
 // 전체삭제 버튼 클릭 시 모든 항목 삭제
@@ -87,6 +91,8 @@ function removeAll() {
 
   toDos = [];
   saveToDos();
+
+  countLeftToDos();
 }
 
 // 추가 버튼 클릭 시
@@ -118,6 +124,20 @@ function updateCompleted(event) {
     }
   });
   saveToDos();
+
+  countLeftToDos();
+}
+
+// 남은 할 일 항목 개수 카운트
+function countLeftToDos() {
+  let countToDos = 0;
+  toDos.forEach((todo) => {
+    if (!todo.isCompleted) {
+      countToDos++;
+    }
+  });
+
+  toDoCount.innerText = `${countToDos} ToDos`;
 }
 
 addBtn.addEventListener("click", handleAddToDo);
