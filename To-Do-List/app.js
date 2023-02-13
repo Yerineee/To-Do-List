@@ -3,6 +3,9 @@ const toDoList = document.querySelector(".todo-list");
 const toDoInput = document.querySelector(".todo-input");
 const removeAllBtn = document.querySelector(".remove-all");
 const toDoCount = document.querySelector(".todo-count");
+const showAllBtn = document.querySelector("#show-all");
+const showTodosBtn = document.querySelector("#show-todos");
+const showCompletedBtn = document.querySelector("#show-completed");
 
 const TODOS_KEY = "toDos";
 
@@ -14,9 +17,9 @@ function saveToDos() {
 }
 
 // 할 일 목록에 새로운 항목 추가
-function paintToDo(newToDoObj) {
+function paintToDo(toDoObj) {
   const toDoItem = document.createElement("li");
-  toDoItem.id = newToDoObj.id;
+  toDoItem.id = toDoObj.id;
   toDoItem.classList.add("todo-item");
 
   const checkbox = document.createElement("div");
@@ -35,7 +38,7 @@ function paintToDo(newToDoObj) {
 
   const toDoText = document.createElement("div");
   toDoText.classList.add("todo-text");
-  toDoText.innerText = newToDoObj.text;
+  toDoText.innerText = toDoObj.text;
 
   const removeBtn = document.createElement("button");
   removeBtn.classList.add("remove-item");
@@ -46,7 +49,7 @@ function paintToDo(newToDoObj) {
   toDoItem.appendChild(toDoText);
   toDoItem.appendChild(removeBtn);
 
-  if (newToDoObj.isCompleted) {
+  if (toDoObj.isCompleted) {
     toDoItem.classList.add("checked");
   }
 
@@ -83,11 +86,16 @@ function removeToDo(event) {
   countLeftToDos();
 }
 
-// 전체삭제 버튼 클릭 시 모든 항목 삭제
-function removeAll() {
+// 화면에서 모든 항목 삭제
+function removeToDoItems() {
   while (toDoList.hasChildNodes()) {
     toDoList.removeChild(toDoList.firstChild);
   }
+}
+
+// 전체삭제 버튼 클릭 시 모든 항목 삭제 (로컬 스토리지에서도 삭제)
+function removeAllToDos() {
+  removeToDoItems();
 
   toDos = [];
   saveToDos();
@@ -131,17 +139,38 @@ function updateCompleted(event) {
 // 남은 할 일 항목 개수 카운트
 function countLeftToDos() {
   let countToDos = 0;
-  toDos.forEach((todo) => {
-    if (!todo.isCompleted) {
+  toDos
+    .filter((todo) => !todo.isCompleted)
+    .forEach(() => {
       countToDos++;
-    }
-  });
+    });
 
   toDoCount.innerText = `${countToDos} ToDos`;
 }
 
+// 하단의 전체 버튼 클릭 시 전체 항목 표시
+function showAllToDos() {
+  removeToDoItems();
+  toDos.forEach(paintToDo);
+}
+
+// 하단의 할 일 버튼 클릭 시 남은 할 일 항목만 표시
+function showLeftToDos() {
+  removeToDoItems();
+  toDos.filter((todo) => !todo.isCompleted).forEach(paintToDo);
+}
+
+// 하단의 완료 버튼 클릭 시 완료된 항목만 표시
+function showCompletedToDos() {
+  removeToDoItems();
+  toDos.filter((todo) => todo.isCompleted).forEach(paintToDo);
+}
+
 addBtn.addEventListener("click", handleAddToDo);
-removeAllBtn.addEventListener("click", removeAll);
+removeAllBtn.addEventListener("click", removeAllToDos);
+showAllBtn.addEventListener("click", showAllToDos);
+showTodosBtn.addEventListener("click", showLeftToDos);
+showCompletedBtn.addEventListener("click", showCompletedToDos);
 
 // 새로고침 후에도 항목 유지하기 위함
 const savedToDos = localStorage.getItem(TODOS_KEY);
