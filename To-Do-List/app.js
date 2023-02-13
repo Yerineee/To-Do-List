@@ -6,6 +6,7 @@ const toDoCount = document.querySelector(".todo-count");
 const showAllBtn = document.querySelector("#show-all");
 const showTodosBtn = document.querySelector("#show-todos");
 const showCompletedBtn = document.querySelector("#show-completed");
+const completeAllBtn = document.querySelector(".complete-all");
 
 const TODOS_KEY = "toDos";
 
@@ -136,6 +137,15 @@ function updateCompleted(event) {
   countLeftToDos();
 }
 
+// 상단의 ✔ 버튼 클릭 시 모든 항목 완료 체크
+function completeAllToDos() {
+  toDos = toDos.map((todo) => ({ ...todo, isCompleted: true }));
+  saveToDos();
+
+  removeToDoItems();
+  toDos.filter((todo) => todo.isCompleted).forEach(paintToDo);
+}
+
 // 남은 할 일 항목 개수 카운트
 function countLeftToDos() {
   let countToDos = 0;
@@ -168,6 +178,7 @@ function showCompletedToDos() {
 
 addBtn.addEventListener("click", handleAddToDo);
 removeAllBtn.addEventListener("click", removeAllToDos);
+completeAllBtn.addEventListener("click", completeAllToDos);
 showAllBtn.addEventListener("click", showAllToDos);
 showTodosBtn.addEventListener("click", showLeftToDos);
 showCompletedBtn.addEventListener("click", showCompletedToDos);

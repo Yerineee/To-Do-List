@@ -35,7 +35,9 @@ button {
   cursor: pointer;
 }
 
-button:active {
+button:active,
+.show-wrap:active,
+.add-wrap:active {
   font-weight: bolder;
 }
 
@@ -46,6 +48,22 @@ button:active {
   border-bottom: 1px solid #b4b4b4;
   justify-content: center;
   align-items: center;
+}
+
+.complete-all {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(0%, -50%);
+  margin-left: 1rem;
+  color: #a4a4a4;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.complete-all:active {
+  color: #3e3e3e;
 }
 
 .todo-count {
