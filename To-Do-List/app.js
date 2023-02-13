@@ -11,6 +11,12 @@ const completeAllBtn = document.querySelector(".complete-all");
 const TODOS_KEY = "toDos";
 
 let toDos = [];
+let currentShowType = "all";
+
+// 화면에 표시할 항목 유형 저장 ('all' | 'todo' | 'complete')
+function setShowType(showType) {
+  currentShowType = showType;
+}
 
 // 로컬 스토리지에 배열 저장
 function saveToDos() {
@@ -57,6 +63,12 @@ function paintToDo(toDoObj) {
   toDoList.appendChild(toDoItem);
 
   countLeftToDos();
+}
+
+// 항목들 화면에 다시 표시
+function repaintToDos(toDoItems) {
+  removeToDoItems();
+  toDoItems.forEach(paintToDo);
 }
 
 // 체크박스 클릭 시 스타일 적용
@@ -142,8 +154,8 @@ function completeAllToDos() {
   toDos = toDos.map((todo) => ({ ...todo, isCompleted: true }));
   saveToDos();
 
-  removeToDoItems();
-  toDos.filter((todo) => todo.isCompleted).forEach(paintToDo);
+  currentShowType === "todo" ? removeToDoItems() : repaintToDos(toDos);
+  countLeftToDos();
 }
 
 // 남은 할 일 항목 개수 카운트
@@ -160,20 +172,25 @@ function countLeftToDos() {
 
 // 하단의 전체 버튼 클릭 시 전체 항목 표시
 function showAllToDos() {
-  removeToDoItems();
-  toDos.forEach(paintToDo);
+  setShowType("all");
+
+  repaintToDos(toDos);
 }
 
 // 하단의 할 일 버튼 클릭 시 남은 할 일 항목만 표시
 function showLeftToDos() {
-  removeToDoItems();
-  toDos.filter((todo) => !todo.isCompleted).forEach(paintToDo);
+  setShowType("todo");
+
+  const leftToDos = toDos.filter((todo) => !todo.isCompleted);
+  repaintToDos(leftToDos);
 }
 
 // 하단의 완료 버튼 클릭 시 완료된 항목만 표시
 function showCompletedToDos() {
-  removeToDoItems();
-  toDos.filter((todo) => todo.isCompleted).forEach(paintToDo);
+  setShowType("complete");
+
+  const completedToDos = toDos.filter((todo) => todo.isCompleted);
+  repaintToDos(completedToDos);
 }
 
 addBtn.addEventListener("click", handleAddToDo);
