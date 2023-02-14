@@ -1,4 +1,4 @@
-const addBtn = document.querySelector(".add-wrap");
+const addBtn = document.querySelector(".add-button");
 const toDoList = document.querySelector(".todo-list");
 const toDoInput = document.querySelector(".todo-input");
 const removeAllBtn = document.querySelector(".remove-all");
@@ -29,19 +29,15 @@ function paintToDo(toDoObj) {
   toDoItem.id = toDoObj.id;
   toDoItem.classList.add("todo-item");
 
-  const checkbox = document.createElement("div");
+  const checkbox = document.createElement("button");
   checkbox.classList.add("checkbox");
-
-  const checkboxImg = document.createElement("img");
-  checkboxImg.src = "./images/checkbox-btn.png";
-  checkbox.addEventListener("click", handleCheckbox);
 
   const checkboxText = document.createElement("div");
   checkboxText.innerText = "✔";
   checkboxText.classList.add("checkbox-text");
 
-  checkbox.appendChild(checkboxImg);
   checkbox.appendChild(checkboxText);
+  checkbox.addEventListener("click", handleCheckbox);
 
   const toDoText = document.createElement("div");
   toDoText.classList.add("todo-text");
@@ -73,8 +69,7 @@ function repaintToDos(toDoItems) {
 
 // 체크박스 클릭 시 스타일 적용
 function handleCheckbox(event) {
-  const checkboxImg = event.target;
-  const checkbox = checkboxImg.parentElement;
+  const checkbox = event.target;
   const toDoItem = checkbox.parentElement;
 
   if (toDoItem.classList.contains("checked")) {
