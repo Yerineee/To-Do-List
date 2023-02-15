@@ -13,7 +13,7 @@ const TODOS_KEY = "toDos";
 let toDos = [];
 let currentShowType = "all";
 
-// 화면에 표시할 항목 유형 저장 ('all' | 'todo' | 'complete')
+// 화면에 표시할 항목 유형 저장 ('all' | 'todos' | 'completed')
 function setShowType(showType) {
   currentShowType = showType;
 }
@@ -161,8 +161,16 @@ function countLeftToDos() {
   toDoCount.innerText = `${countToDos} ToDos`;
 }
 
+function setSeletedBtn(selectedBtn) {
+  const currentSelectedBtn = document.querySelector(`#show-${currentShowType}`);
+  currentSelectedBtn.classList.remove("selected");
+
+  selectedBtn.classList.add("selected");
+}
+
 // 하단의 전체 버튼 클릭 시 전체 항목 표시
 function showAllToDos() {
+  setSeletedBtn(showAllBtn);
   setShowType("all");
 
   repaintToDos(toDos);
@@ -170,7 +178,8 @@ function showAllToDos() {
 
 // 하단의 할 일 버튼 클릭 시 남은 할 일 항목만 표시
 function showLeftToDos() {
-  setShowType("todo");
+  setSeletedBtn(showTodosBtn);
+  setShowType("todos");
 
   const leftToDos = toDos.filter((todo) => !todo.isCompleted);
   repaintToDos(leftToDos);
@@ -178,7 +187,8 @@ function showLeftToDos() {
 
 // 하단의 완료 버튼 클릭 시 완료된 항목만 표시
 function showCompletedToDos() {
-  setShowType("complete");
+  setSeletedBtn(showCompletedBtn);
+  setShowType("completed");
 
   const completedToDos = toDos.filter((todo) => todo.isCompleted);
   repaintToDos(completedToDos);

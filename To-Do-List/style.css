@@ -6,6 +6,7 @@
   --todo-box-color: #eeeeee;
   --border-color: #b4b4b4;
   --button-color: #a0b7cc;
+  --selected-button-color: #567797;
   --button-text-color: #4a4a4a;
   --darkgray-color: #3e3e3e;
   --gray-color: #a4a4a4;
@@ -178,6 +179,10 @@ button:active {
 .show-button {
   width: 3rem;
   height: 1.8rem;
+}
+
+.show-button.selected {
+  border: 2px solid var(--selected-button-color);
 }
 
 .add-button {
