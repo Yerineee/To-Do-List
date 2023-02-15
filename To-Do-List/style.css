@@ -149,24 +149,20 @@ button:active {
 }
 
 .checkbox {
+  display: flex;
   position: relative;
   width: 1.3rem;
   height: 1.3rem;
   border-radius: 7px 8px 6px 9px;
   background-color: var(--button-color);
-}
-
-.checkbox-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -65%);
   color: rgba(62, 62, 62, 0);
-  font-size: 22px;
+  font-size: 23px;
+  align-items: flex-end;
+  justify-content: center;
 }
 
-.todo-item.checked .checkbox-text {
-  color: rgba(62, 62, 62, 1);
+.todo-item.checked .checkbox {
+  color: rgb(62, 62, 62);
 }
 
 .show-button,

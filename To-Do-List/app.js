@@ -30,13 +30,9 @@ function paintToDo(toDoObj) {
   toDoItem.classList.add("todo-item");
 
   const checkbox = document.createElement("button");
+  checkbox.innerText = "✔";
   checkbox.classList.add("checkbox");
 
-  const checkboxText = document.createElement("div");
-  checkboxText.innerText = "✔";
-  checkboxText.classList.add("checkbox-text");
-
-  checkbox.appendChild(checkboxText);
   checkbox.addEventListener("click", handleCheckbox);
 
   const toDoText = document.createElement("div");
