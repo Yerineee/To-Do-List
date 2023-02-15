@@ -9,18 +9,26 @@ const showCompletedBtn = document.querySelector("#show-completed");
 const completeAllBtn = document.querySelector(".complete-all");
 
 const TODOS_KEY = "toDos";
+const SHOWTYPE_KEY = "showType";
 
 let toDos = [];
 let currentShowType = "all";
 
-// 화면에 표시할 항목 유형 저장 ('all' | 'todos' | 'completed')
-function setShowType(showType) {
-  currentShowType = showType;
-}
-
 // 로컬 스토리지에 배열 저장
 function saveToDos() {
   localStorage.setItem(TODOS_KEY, JSON.stringify(toDos));
+}
+
+// 로컬 스토리지에 화면에 표시할 항목 유형 저장
+function saveShowType() {
+  localStorage.setItem(SHOWTYPE_KEY, currentShowType);
+}
+
+// 화면에 표시할 항목 유형 저장 ('all' | 'todos' | 'completed')
+function setShowType(showType) {
+  currentShowType = showType;
+
+  saveShowType(currentShowType);
 }
 
 // 할 일 목록에 새로운 항목 추가
@@ -161,6 +169,7 @@ function countLeftToDos() {
   toDoCount.innerText = `${countToDos} ToDos`;
 }
 
+// 하단의 선택된 버튼에 클래스 추가해서 스타일 적용
 function setSeletedBtn(selectedBtn) {
   const currentSelectedBtn = document.querySelector(`#show-${currentShowType}`);
   currentSelectedBtn.classList.remove("selected");
@@ -203,9 +212,17 @@ showCompletedBtn.addEventListener("click", showCompletedToDos);
 
 // 새로고침 후에도 항목 유지하기 위함
 const savedToDos = localStorage.getItem(TODOS_KEY);
+const savedShowType = localStorage.getItem(SHOWTYPE_KEY);
 
-if (savedToDos) {
+if (savedToDos !== null) {
   const parsedToDos = JSON.parse(savedToDos);
   toDos = parsedToDos;
   parsedToDos.forEach(paintToDo);
+}
+
+if (savedShowType !== null) {
+  currentShowType = savedShowType;
+
+  const selectedBtn = document.querySelector(`#show-${currentShowType}`);
+  selectedBtn.classList.add("selected");
 }
