@@ -10,9 +10,11 @@ const completeAllBtn = document.querySelector(".complete-all");
 
 const TODOS_KEY = "toDos";
 const SHOWTYPE_KEY = "showType";
+const COMPLETION_KEY = "completion";
 
 let toDos = [];
 let currentShowType = "all";
+let completionStatus = "false";
 
 // 로컬 스토리지에 배열 저장
 function saveToDos() {
@@ -22,6 +24,11 @@ function saveToDos() {
 // 로컬 스토리지에 화면에 표시할 항목 유형 저장
 function saveShowType() {
   localStorage.setItem(SHOWTYPE_KEY, currentShowType);
+}
+
+// 로컬 스토리지에 전체 항목 체크 여부 저장
+function saveCompletion() {
+  localStorage.setItem(COMPLETION_KEY, completionStatus);
 }
 
 // 화면에 표시할 항목 유형 저장 ('all' | 'todos' | 'completed')
@@ -148,12 +155,40 @@ function updateCompleted(event) {
   countLeftToDos();
 }
 
-// 상단의 ✔ 버튼 클릭 시 모든 항목 완료 체크
+// 상단의 ✔ 버튼 클릭 시 체크되어있으면 해제, 해제되어있으면 체크
+function handleCompleteAll() {
+  if (completeAllBtn.classList.contains("selected")) {
+    completionStatus = "false";
+    saveCompletion();
+
+    completeAllBtn.classList.remove("selected");
+
+    undoCompletedToDos();
+  } else {
+    completionStatus = "true";
+    saveCompletion();
+
+    completeAllBtn.classList.add("selected");
+
+    completeAllToDos();
+  }
+}
+
+// 모든 항목 완료 체크
 function completeAllToDos() {
   toDos = toDos.map((todo) => ({ ...todo, isCompleted: true }));
   saveToDos();
 
-  currentShowType === "todo" ? removeToDoItems() : repaintToDos(toDos);
+  currentShowType === "todos" ? removeToDoItems() : repaintToDos(toDos);
+  countLeftToDos();
+}
+
+// 모든 항목 완료 체크 해제
+function undoCompletedToDos() {
+  toDos = toDos.map((todo) => ({ ...todo, isCompleted: false }));
+  saveToDos();
+
+  currentShowType === "completed" ? removeToDoItems() : repaintToDos(toDos);
   countLeftToDos();
 }
 
@@ -205,7 +240,7 @@ function showCompletedToDos() {
 
 addBtn.addEventListener("click", handleAddToDo);
 removeAllBtn.addEventListener("click", removeAllToDos);
-completeAllBtn.addEventListener("click", completeAllToDos);
+completeAllBtn.addEventListener("click", handleCompleteAll);
 showAllBtn.addEventListener("click", showAllToDos);
 showTodosBtn.addEventListener("click", showLeftToDos);
 showCompletedBtn.addEventListener("click", showCompletedToDos);
@@ -213,6 +248,7 @@ showCompletedBtn.addEventListener("click", showCompletedToDos);
 // 새로고침 후에도 항목 유지하기 위함
 const savedToDos = localStorage.getItem(TODOS_KEY);
 const savedShowType = localStorage.getItem(SHOWTYPE_KEY);
+const savedCompletion = localStorage.getItem(COMPLETION_KEY);
 
 if (savedToDos !== null) {
   const parsedToDos = JSON.parse(savedToDos);
@@ -225,4 +261,12 @@ if (savedShowType !== null) {
 
   const selectedBtn = document.querySelector(`#show-${currentShowType}`);
   selectedBtn.classList.add("selected");
+}
+
+if (savedCompletion !== null) {
+  completionStatus = savedCompletion;
+
+  if (completionStatus === "true") {
+    completeAllBtn.classList.add("selected");
+  }
 }

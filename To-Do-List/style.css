@@ -131,7 +131,8 @@ button:active {
   cursor: pointer;
 }
 
-.complete-all:active {
+.complete-all:active,
+.complete-all.selected {
   color: var(--darkgray-color);
 }
 
