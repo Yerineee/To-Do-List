@@ -162,7 +162,7 @@ function handleAddToDo(event) {
 
   toDos.push(newToDoObj);
 
-  paintToDo(newToDoObj);
+  repaintToDos(toDos);
   saveToDos();
 }
 
