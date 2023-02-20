@@ -72,10 +72,24 @@ function paintToDo(toDoObj) {
   countLeftToDos();
 }
 
-// 항목들 화면에 다시 표시
+// 항목 표시 유형에 따라 항목들 화면에 다시 표시
 function repaintToDos(toDoItems) {
   removeToDoItems();
-  toDoItems.forEach(paintToDo);
+
+  if (currentShowType === "all") {
+    toDoItems.forEach(paintToDo);
+  } else if (currentShowType === "todos") {
+    const leftToDos = filterToDos(false);
+    leftToDos.forEach(paintToDo);
+  } else {
+    const completedToDos = filterToDos(true);
+    completedToDos.forEach(paintToDo);
+  }
+}
+
+// 완료 또는 미완료된 항목들만 반환
+function filterToDos(isCompleted) {
+  return toDos.filter((todo) => todo.isCompleted === isCompleted);
 }
 
 // 체크박스 클릭 시 스타일 적용
@@ -83,12 +97,23 @@ function handleCheckbox(event) {
   const checkbox = event.target;
   const toDoItem = checkbox.parentElement;
 
+  // 체크박스 체크되어 있는 경우 체크 해제
   if (toDoItem.classList.contains("checked")) {
     toDoItem.classList.remove("checked");
     updateCompleted(toDoItem);
-  } else {
+
+    if (completeAllBtn.classList.contains("selected")) {
+      completeAllBtn.classList.remove("selected");
+    }
+  }
+  // 체크박스 체크되지 않은 경우 체크
+  else {
     toDoItem.classList.add("checked");
     updateCompleted(toDoItem);
+  }
+
+  if (currentShowType !== "all") {
+    repaintToDos(toDos);
   }
 }
 
@@ -179,7 +204,7 @@ function completeAllToDos() {
   toDos = toDos.map((todo) => ({ ...todo, isCompleted: true }));
   saveToDos();
 
-  currentShowType === "todos" ? removeToDoItems() : repaintToDos(toDos);
+  repaintToDos(toDos);
   countLeftToDos();
 }
 
@@ -188,18 +213,17 @@ function undoCompletedToDos() {
   toDos = toDos.map((todo) => ({ ...todo, isCompleted: false }));
   saveToDos();
 
-  currentShowType === "completed" ? removeToDoItems() : repaintToDos(toDos);
+  repaintToDos(toDos);
   countLeftToDos();
 }
 
 // 남은 할 일 항목 개수 카운트
 function countLeftToDos() {
   let countToDos = 0;
-  toDos
-    .filter((todo) => !todo.isCompleted)
-    .forEach(() => {
-      countToDos++;
-    });
+  const leftToDos = filterToDos(false);
+  leftToDos.forEach(() => {
+    countToDos++;
+  });
 
   toDoCount.innerText = `${countToDos} ToDos`;
 }
@@ -225,8 +249,7 @@ function showLeftToDos() {
   setSeletedBtn(showTodosBtn);
   setShowType("todos");
 
-  const leftToDos = toDos.filter((todo) => !todo.isCompleted);
-  repaintToDos(leftToDos);
+  repaintToDos(toDos);
 }
 
 // 하단의 완료 버튼 클릭 시 완료된 항목만 표시
@@ -234,8 +257,7 @@ function showCompletedToDos() {
   setSeletedBtn(showCompletedBtn);
   setShowType("completed");
 
-  const completedToDos = toDos.filter((todo) => todo.isCompleted);
-  repaintToDos(completedToDos);
+  repaintToDos(toDos);
 }
 
 addBtn.addEventListener("click", handleAddToDo);
@@ -253,7 +275,6 @@ const savedCompletion = localStorage.getItem(COMPLETION_KEY);
 if (savedToDos !== null) {
   const parsedToDos = JSON.parse(savedToDos);
   toDos = parsedToDos;
-  parsedToDos.forEach(paintToDo);
 }
 
 if (savedShowType !== null) {
@@ -261,6 +282,8 @@ if (savedShowType !== null) {
 
   const selectedBtn = document.querySelector(`#show-${currentShowType}`);
   selectedBtn.classList.add("selected");
+
+  repaintToDos(toDos);
 }
 
 if (savedCompletion !== null) {
